@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Ass X",
+  "description": "Apply real JPEG compression artifacts to all images and videos on X/Twitter.",
+  "version": "1.0.0",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "*://pbs.twimg.com/*",
+    "*://video.twimg.com/*",
+    "*://abs.twimg.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://x.com/*", "*://twitter.com/*"],
+      "js": ["injector.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["*://x.com/*", "*://twitter.com/*"],
+      "js": ["content.js"],
+      "css": ["assx.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": { "128": "icon128.png" }
+  },
+  "icons": { "128": "icon128.png" }
+}

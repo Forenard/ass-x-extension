@@ -1,0 +1,43 @@
+/*
+ * Ass X — Manifest CSS
+ *
+ * Images: handled by injector.js (src replaced with blank GIF).
+ * Videos: CSS brightness(0) until canvas overlay renders.
+ * Overlays: positioned on top with full opacity.
+ */
+
+/* Blackout videos until processed */
+html:not([data-assx-off]) video {
+  filter: brightness(0) !important;
+}
+
+/* Compressed overlay */
+.assx-overlay {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  filter: none !important;
+}
+
+/* Text redaction */
+assx-r {
+  background: #000 !important;
+  color: transparent !important;
+  border-radius: 1px;
+  user-select: none;
+}
+
+/* Disabled state */
+html[data-assx-off] .assx-overlay {
+  display: none !important;
+}
+
+html[data-assx-off] assx-r {
+  background: transparent !important;
+  color: inherit !important;
+}

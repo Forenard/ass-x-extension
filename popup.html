@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 260px;
+      font-family: "SF Mono", "Consolas", "Monaco", monospace;
+      background: #000;
+      color: #fff;
+      padding: 16px;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #333;
+    }
+
+    .title { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
+
+    .toggle { position: relative; width: 36px; height: 18px; cursor: pointer; }
+    .toggle input { display: none; }
+    .track {
+      position: absolute; inset: 0;
+      border: 1px solid #555; border-radius: 9px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .track::after {
+      content: ""; position: absolute; top: 2px; left: 2px;
+      width: 12px; height: 12px; background: #555;
+      border-radius: 50%; transition: transform 0.15s, background 0.15s;
+    }
+    .toggle input:checked + .track { background: #fff; border-color: #fff; }
+    .toggle input:checked + .track::after { transform: translateX(18px); background: #000; }
+
+    .section-label {
+      font-size: 9px; text-transform: uppercase; letter-spacing: 1px;
+      color: #666; margin-top: 14px; margin-bottom: 8px;
+      padding-top: 10px; border-top: 1px solid #222;
+    }
+
+    .param { margin-bottom: 10px; }
+    .param-row {
+      display: flex; justify-content: space-between;
+      align-items: baseline; margin-bottom: 3px;
+    }
+    .param-label { color: #888; text-transform: uppercase; font-size: 9px; letter-spacing: 0.8px; }
+    .param-value { font-weight: 700; font-size: 11px; min-width: 40px; text-align: right; }
+
+    input[type="range"] {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 2px; background: #333;
+      outline: none; border-radius: 1px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 10px; height: 10px;
+      background: #fff; border-radius: 50%; cursor: pointer;
+    }
+
+    .presets {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6px; margin-top: 14px; padding-top: 12px;
+      border-top: 1px solid #333;
+    }
+    .preset {
+      padding: 6px 0; font-family: inherit; font-size: 10px;
+      font-weight: 600; text-align: center; background: transparent;
+      color: #aaa; border: 1px solid #333; border-radius: 4px;
+      cursor: pointer; transition: color 0.1s, border-color 0.1s;
+    }
+    .preset:hover { color: #fff; border-color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span class="title">Ass X</span>
+    <label class="toggle">
+      <input type="checkbox" id="tog" checked>
+      <span class="track"></span>
+    </label>
+  </div>
+
+  <!-- Media compression -->
+  <div class="section-label">Media</div>
+
+  <div class="param">
+    <div class="param-row">
+      <span class="param-label">JPEG Quality</span>
+      <span class="param-value" id="qVal">5 %</span>
+    </div>
+    <input type="range" id="qSlider" min="1" max="100" value="5">
+  </div>
+
+  <div class="param">
+    <div class="param-row">
+      <span class="param-label">Passes</span>
+      <span class="param-value" id="pVal">3</span>
+    </div>
+    <input type="range" id="pSlider" min="1" max="10" value="3">
+  </div>
+
+  <div class="param">
+    <div class="param-row">
+      <span class="param-label">Video FPS</span>
+      <span class="param-value" id="fVal">8</span>
+    </div>
+    <input type="range" id="fSlider" min="1" max="30" value="8">
+  </div>
+
+  <!-- Text redaction -->
+  <div class="section-label">Text</div>
+
+  <div class="param">
+    <div class="param-row">
+      <span class="param-label">Redaction</span>
+      <span class="param-value" id="rVal">50 %</span>
+    </div>
+    <input type="range" id="rSlider" min="0" max="100" value="50">
+  </div>
+
+  <!-- Presets -->
+  <div class="presets">
+    <button class="preset" data-q="40" data-p="1" data-f="24" data-r="0">Mild</button>
+    <button class="preset" data-q="10" data-p="3" data-f="12" data-r="10">Heavy</button>
+    <button class="preset" data-q="2"  data-p="7" data-f="4"  data-r="30">Brutal</button>
+    <button class="preset" data-q="1"  data-p="10" data-f="1" data-r="60">Hell</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
