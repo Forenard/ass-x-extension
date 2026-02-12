@@ -20,8 +20,8 @@
 ## Settings
 
 <p align="center">
-  <img src="sc.png" width="512">
-  <img src="ass.png" width="512">
+  <img src="sc.png" height="512">
+  <img src="ass.png" height="512">
 </p>
 
 ## Privacy
