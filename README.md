@@ -19,10 +19,10 @@
 
 ## Settings
 
-<p align="center">
-  <img src="sc.png" height="512">
-  <img src="ass.png" height="512">
-</p>
+<table align="center"><tr>
+<td><img src="sc.png" height="512"></td>
+<td><img src="ass.png" height="512"></td>
+</tr></table>
 
 ## Privacy
 
