@@ -46,27 +46,22 @@
   }
 
   // -------------------------------------------------------
-  // 2. Early crossOrigin for <video>
+  // 2. Tag crossOrigin on <video> immediately when added
+  //    (before the browser starts fetching the source).
+  //    This is done inside contentObs so a single observer
+  //    handles both image interception and video tagging.
   // -------------------------------------------------------
-  let earlyObs = new MutationObserver((muts) => {
-    for (const m of muts) {
-      for (const node of m.addedNodes) {
-        if (node.nodeType !== 1) continue;
-        if (node.tagName === "VIDEO" && !node.crossOrigin) {
-          node.crossOrigin = "anonymous";
-        }
-        if (node.querySelectorAll) {
-          node.querySelectorAll("video:not([crossorigin])").forEach((v) => {
-            v.crossOrigin = "anonymous";
-          });
-        }
-      }
+  function tagVideoCrossOrigin(node) {
+    if (node.nodeType !== 1) return;
+    if (node.tagName === "VIDEO" && !node.crossOrigin) {
+      node.crossOrigin = "anonymous";
     }
-  });
-  earlyObs.observe(document.documentElement, { childList: true, subtree: true });
-  document.querySelectorAll("video").forEach((v) => {
-    if (!v.crossOrigin) v.crossOrigin = "anonymous";
-  });
+    if (node.querySelectorAll) {
+      node.querySelectorAll("video:not([crossorigin])").forEach((v) => {
+        v.crossOrigin = "anonymous";
+      });
+    }
+  }
 
   // -------------------------------------------------------
   // 3. Image queue
@@ -514,7 +509,14 @@
   //     changes (set by injector.js in MAIN world).
   // -------------------------------------------------------
   let scanTimer = null;
-  const contentObs = new MutationObserver(() => {
+  const contentObs = new MutationObserver((muts) => {
+    // Tag videos immediately (no debounce) so crossOrigin is
+    // set before the browser starts fetching the source.
+    for (const m of muts) {
+      if (m.type === "childList") {
+        for (const node of m.addedNodes) tagVideoCrossOrigin(node);
+      }
+    }
     if (!enabled) return;
     clearTimeout(scanTimer);
     scanTimer = setTimeout(scan, 80);
@@ -537,8 +539,10 @@
         if (d.assx_fps !== undefined) videoFps = d.assx_fps;
         if (d.assx_redact !== undefined) redactRatio = d.assx_redact;
 
-        // earlyObs is no longer needed; contentObs + processVideo handle crossOrigin
-        if (earlyObs) { earlyObs.disconnect(); earlyObs = null; }
+        // Tag any videos already in the DOM
+        document.querySelectorAll("video:not([crossorigin])").forEach((v) => {
+          v.crossOrigin = "anonymous";
+        });
 
         if (enabled) scan();
         contentObs.observe(document.body, {

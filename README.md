@@ -17,15 +17,18 @@
 3. Enable **Developer mode** (top-right toggle)
 4. Click **Load unpacked** and select this folder
 
+## Settings
+
+<p align="center">
+  <img src="sc.png" width="256">
+  <img src="ass.png" width="256">
+</p>
+
 ## Privacy
 
 Ass X operates entirely within your browser. No data is collected, transmitted, or stored externally. See [PRIVACY.md](PRIVACY.md) for details.
 
 ---
-
-# 日本語
-
-XをゴミにするChrome拡張機能
 
 ## インストール
 
